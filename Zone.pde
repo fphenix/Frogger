@@ -1,7 +1,6 @@
 class Zone extends BoxObject {
 
-  Zone (int ty, int th, color tc) {
-     super(0, ty, floor(width / SCALE), th, tc);
+  Zone (int tyn, int thn, color tc) {
+    super(0, tyn, floor(width / SCALE), thn, tc);
   }
-  
 }

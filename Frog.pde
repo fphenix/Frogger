@@ -1,14 +1,21 @@
 class Frog extends BoxObject {
 
-  Frog (int tx, int ty) {
-    super(tx, ty, 1, 1, color(0x20, 0xB0, 0x30));
+  Frog (int txn, int tyn) {
+    super(txn, tyn, 1, 1, color(0x20, 0xB0, 0x30, 0xC0));
+    this.type = TYPEFROG;
     this.setShapeCircle();
   }
 
   void move (int xm, int ym) {
-    this.xN += xm;
-    this.yN += ym;
+    this.x += xm * this.w;
+    this.y -= ym * this.h;
     this.bound();
-    this.update();
+  }
+
+  void reset (String str) {
+    fill(255, 0, 0);
+    rect(0, 0, width, height);
+    this.reconstruct(5, 0);
+    println(str);
   }
 }

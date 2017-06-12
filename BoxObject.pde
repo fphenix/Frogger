@@ -12,32 +12,48 @@ class BoxObject {
 
   boolean isRect = true;
 
-  BoxObject (int tx, int ty, int tw, int th, color tc) {
-    this.construct(tx, ty, tw, th, tc);
+  boolean underwater = false;
+
+  public final int TYPECARS = 0;
+  public final int TYPETURTLES = 1;
+  public final int TYPELOGS = 2;
+  public final int TYPENESTS = 3;
+  public final int TYPEFROG = 4;
+  public final int TYPEDEFAULT = 5;
+
+  int type;
+
+  BoxObject (int txn, int tyn, int twn, int thn, color tc) {
+    this.construct(txn, tyn, twn, thn, tc);
   }
 
-  BoxObject (int tx, int ty, int tw, int th) {
+  BoxObject (int txn, int tyn, int twn, int thn) {
     color tc = this.rndColor();
-    this.construct(tx, ty, tw, th, tc);
+    this.construct(txn, tyn, twn, thn, tc);
   }
 
-  void construct (int tx, int ty, int tw, int th, color tc) {
-    this.xN = tx;
-    this.yN = ty;
-    this.wN = tw;
-    this.hN = th;
+  void construct (int txn, int tyn, int twn, int thn, color tc) {
+    this.type = TYPEDEFAULT;
+    this.xN = txn;
+    this.yN = tyn;
+    this.wN = twn;
+    this.hN = thn;
     this.c = tc;
     this.scl = SCALE;
-    this.xMaxN = floor(width / SCALE) - 1;
-    this.yMaxN = floor(height / SCALE) - 1 - 1; // "-1" more for toppest row reserved for score/time/etc.
-    this.update();
+    this.xMaxN = floor(width / this.scl) - 1;
+    this.yMaxN = floor(height / this.scl) - 1 - 1; // "-1" more for toppest row reserved for score/time/etc.
+    this.updateCoord();
   }
 
-  void update () {
+  void reconstruct (int txn, int tyn) {
+    this.construct(txn, tyn, this.wN, this.hN, this.c);
+  }
+
+  void updateCoord () {
     this.x = this.xN * scl;
-    this.y = height - ((this.yN + 1) * scl);
-    this.w = this.wN * scl;
-    this.h = this.hN * scl;
+    this.y = height - ((this.yN + 1) * this.scl);
+    this.w = this.wN * this.scl;
+    this.h = this.hN * this.scl;
   }
 
   void setShapeCircle () {
@@ -61,8 +77,8 @@ class BoxObject {
   }
 
   boolean intersects (BoxObject other) {
-    return !( ((this.xN + 1) < other.xN) || (this.xN > (other.xN + 1)) || 
-      (this.yN < (other.yN - 1)) || ((this.yN - 1) > other.yN) );
+    return !( ((this.x + this.w) <= other.x) || (this.x >= (other.x + other.w)) || 
+      ((this.y + this.h) <= other.y) || (this.y >= (other.y + other.h)) );
   }
 
   void move () {
@@ -74,12 +90,16 @@ class BoxObject {
     }
   }
 
+  void update() {
+  }
+
   void bound() {
-    this.xN =  constrain(this.xN, 0, xMaxN);
-    this.yN =  constrain(this.yN, 0, yMaxN);
+    this.x = constrain(this.x, 0, (width - this.w));
+    this.y = constrain(this.y, this.h, (height - this.h));
   }
 
   void show () {
+    this.update();
     stroke(0);
     strokeWeight(2);
     fill(this.c);
@@ -87,8 +107,9 @@ class BoxObject {
       rectMode(CORNER);
       rect(this.x, this.y, this.w, this.h, this.radii);
     } else {
-      ellipseMode(CORNER);
-      ellipse(this.x, this.y, this.w, this.h);
+      ellipseMode(CENTER);
+      // "this.h" is used in the turtle class, else the ellipse uses only "this.w".
+      ellipse(this.x + (this.h / 2.0), this.y + (this.h / 2.0), this.w, this.w);
     }
   }
 }

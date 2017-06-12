@@ -6,13 +6,13 @@ Frog frog;
 
 void setup () {
   size(600, 750);
-  
-  level1 = new Level();
+
   frog = new Frog(5, 0);
+  level1 = new Level();
 }
 
 void draw () {
-  level1.show();
+  level1.show(frog);
   frog.show();
 }
 

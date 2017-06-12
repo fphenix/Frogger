@@ -1,7 +1,7 @@
 class Car extends BoxObject {
 
-  Car (int tx, int ty, int tw, float ts) {
-    super(tx, ty, tw, 1);
+  Car (int txn, int tyn, int twn, float ts) {
+    super(txn, tyn, twn, 1);
     this.setSpeed(ts);
     this.setRoundCorners();
   }
