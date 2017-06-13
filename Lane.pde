@@ -66,21 +66,47 @@ class Lane extends BoxObject {
     boolean onLog = false;
     boolean inRiverT = false;
     boolean inRiverL = false;
+    boolean inGoalLane = false;
+    boolean inNest = false;
+    int score = 0;
+
     for (BoxObject e : this.list) {
       e.move();
       e.show();
+
+      if (e.inIt) {
+        fill(0, 0xFF, 0xc0);
+        strokeWeight(2);
+        stroke(0);
+        ellipseMode(CENTER);
+        ellipse(e.x + e.w/2, e.y+e.h/2, e.w, e.h/2);
+        score++;
+        if (score == 4) {
+          frog.win();
+        }
+      }
+
       boolean inter = e.intersects(frog);
+
       if (this.isInLane(frog.y)) {
         switch (this.type) {
         case TYPECARS:
           if (inter) {
-            frog.reset("Splatch, a 2D version of yourself is on the road!");
+            frog.reset("Splatch, a 2D version of yourself is printed on the road!");
           }
           break;
         case TYPETURTLES:
           inRiverT = true;
           if (inter && !e.underwater && !onTurtle) {
             onTurtle = true;
+            break;
+          }
+          break;
+        case TYPENESTS:
+          inGoalLane = true;
+          if (inter && !inNest && !e.inIt) {
+            inNest = true;
+            e.inIt = true;
             break;
           }
           break;
@@ -102,6 +128,13 @@ class Lane extends BoxObject {
     }
     if (inRiverL && !onLog) {
       frog.reset("Plouf, off the log, Piranhas got you!");
+    }
+    if (inGoalLane) {
+      if (inNest) {
+        frog.saved(score+1);
+      } else {
+        frog.stepBack();
+      }
     }
   }
 }

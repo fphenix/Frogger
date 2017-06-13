@@ -13,6 +13,7 @@ class BoxObject {
   boolean isRect = true;
 
   boolean underwater = false;
+  boolean inIt = false;
 
   public final int TYPECARS = 0;
   public final int TYPETURTLES = 1;

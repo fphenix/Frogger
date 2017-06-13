@@ -12,10 +12,32 @@ class Frog extends BoxObject {
     this.bound();
   }
 
-  void reset (String str) {
-    fill(255, 0, 0);
+  void stepBack () {
+    this.y += this.h;
+  }
+
+  void regen (boolean recons, String str, color c) {
+    fill(c);
     rect(0, 0, width, height);
-    this.reconstruct(5, 0);
-    println(str);
+    if (recons) {
+      this.reconstruct(5, 0);
+    }
+    fill(0);
+    text(str, 50, 30);
+  }
+
+  void win () {
+    this.regen(false, "You win!", color(0, 255, 0));
+  }
+
+  void reset (String str) {
+    color c = color(255, 0, 0);
+    this.regen(true, str, c);
+  }
+
+  void saved (int sc) {
+    color c = color(0, 255, 0);
+    String str = str(sc) + ((sc < 2) ? " froggy saved..." : " Froggies saved!!!");
+    this.regen(true, str, c);
   }
 }
