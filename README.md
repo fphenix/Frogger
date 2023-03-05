@@ -14,7 +14,7 @@ Just the time to take a deep breath on the safty zone, and the next challenge ar
 Frogs love water, but this river is infested with gators and piranhas. 
 Thanksfully, the turtles offer a shelter for a little while, but watch out, they go underwater every so often. 
 Floating logs can also help, but the current is strong (...with this one...), and you don't want to slip off.
-A last final jump and you are safe home... but the rest of you family must follow.
+A last final jump and you are safe home... but the rest of your family must follow.
 
 Once 4 frogs are saved, you win! Frogs are safe, World is saved, Trump is defeated.
 
